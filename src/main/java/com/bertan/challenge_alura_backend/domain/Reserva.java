@@ -1,13 +1,28 @@
 package com.bertan.challenge_alura_backend.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "reservas")
 public class Reserva {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     Sala sala;
+
     String dataHoraInicio;
+
     String dataHoraFim;
+
     Integer numeroPessoas;
+
+    @Enumerated(EnumType.STRING)
     StatusReserva statusReserva;
 
     public Reserva() {}

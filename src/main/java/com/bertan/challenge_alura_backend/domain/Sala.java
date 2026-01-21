@@ -1,9 +1,17 @@
 package com.bertan.challenge_alura_backend.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "salas")
 public class Sala {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nome;
+
     private Integer capacidade;
 
     public Sala() {}
