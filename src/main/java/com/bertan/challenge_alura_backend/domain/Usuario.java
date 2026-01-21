@@ -1,5 +1,7 @@
 package com.bertan.challenge_alura_backend.domain;
 
+import com.bertan.challenge_alura_backend.dto.UsuarioRequest;
+import com.bertan.challenge_alura_backend.dto.UsuarioUpdateRequest;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,6 +22,16 @@ public class Usuario {
         this.id = id;
         this.nome = nome;
         this.email = email;
+    }
+
+    public Usuario(UsuarioRequest dto) {
+        this.nome = dto.nome();
+        this.email = dto.email();
+    }
+
+    public void atualizarInformacoes(UsuarioUpdateRequest dto) {
+        this.nome = dto.nome();
+        this.email = dto.email();
     }
 
     public Long getId() {

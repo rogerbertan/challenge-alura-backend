@@ -1,0 +1,63 @@
+package com.bertan.challenge_alura_backend.service;
+
+import com.bertan.challenge_alura_backend.domain.Usuario;
+import com.bertan.challenge_alura_backend.dto.UsuarioRequest;
+import com.bertan.challenge_alura_backend.dto.UsuarioResponse;
+import com.bertan.challenge_alura_backend.dto.UsuarioUpdateRequest;
+import com.bertan.challenge_alura_backend.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
+
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
+    public List<UsuarioResponse> obterListaUsuarios() {
+
+        return usuarioRepository.findAll()
+                .stream().map(UsuarioResponse::new)
+                .toList();
+    }
+
+    public UsuarioResponse obterUsuarioPorId(Long id) {
+
+        return usuarioRepository.findById(id)
+                .map(UsuarioResponse::new)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o id: " + id));
+    }
+
+    @Transactional
+    public void criarUsuario(UsuarioRequest dto) {
+
+        Usuario usuario = new Usuario(dto);
+        usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public void atualizarUsuario(UsuarioUpdateRequest dto) {
+
+        if (!usuarioRepository.existsById(dto.id())) {
+            throw new EntityNotFoundException("Usuário não encontrado com o id: " + dto.id());
+        }
+
+        Usuario usuario = usuarioRepository.getReferenceById(dto.id());
+        usuario.atualizarInformacoes(dto);
+    }
+
+    public void deletarUsuario(Long id) {
+
+        if (!usuarioRepository.existsById(id)) {
+            throw new EntityNotFoundException("Usuário não encontrado com o id: " + id);
+        }
+
+        usuarioRepository.deleteById(id);
+    }
+}
