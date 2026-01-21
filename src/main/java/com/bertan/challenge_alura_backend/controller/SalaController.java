@@ -4,6 +4,7 @@ import com.bertan.challenge_alura_backend.dto.SalaResponse;
 import com.bertan.challenge_alura_backend.service.SalaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,13 @@ public class SalaController {
         List<SalaResponse> salas = salaService.listarSalas();
 
         return ResponseEntity.ok(salas);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SalaResponse> buscarSalaPorId(@PathVariable Long id) {
+
+        SalaResponse sala = salaService.buscarSalaPorId(id);
+        return ResponseEntity.ok(sala);
     }
 
 }
