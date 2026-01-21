@@ -1,5 +1,7 @@
 package com.bertan.challenge_alura_backend.domain;
 
+import com.bertan.challenge_alura_backend.dto.SalaRequest;
+import com.bertan.challenge_alura_backend.dto.SalaUpdateRequest;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,6 +22,16 @@ public class Sala {
         this.id = id;
         this.nome = nome;
         this.capacidade = capacidade;
+    }
+
+    public Sala(SalaRequest dto) {
+        this.nome = dto.nome();
+        this.capacidade = dto.capacidade();
+    }
+
+    public void atualizarInformacoes(SalaUpdateRequest dto) {
+        this.nome = dto.nome();
+        this.capacidade = dto.capacidade();
     }
 
     public Long getId() {

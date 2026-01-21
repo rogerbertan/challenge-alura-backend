@@ -1,13 +1,15 @@
 package com.bertan.challenge_alura_backend.service;
 
 import com.bertan.challenge_alura_backend.domain.Sala;
+import com.bertan.challenge_alura_backend.dto.SalaRequest;
 import com.bertan.challenge_alura_backend.dto.SalaResponse;
+import com.bertan.challenge_alura_backend.dto.SalaUpdateRequest;
 import com.bertan.challenge_alura_backend.repository.SalaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SalaService {
@@ -31,5 +33,32 @@ public class SalaService {
         return salaRepository.findById(id)
                 .map(SalaResponse::new)
                 .orElseThrow(() -> new EntityNotFoundException("Sala não encontrada"));
+    }
+
+    @Transactional
+    public void criarSala(SalaRequest dto) {
+
+        Sala sala = new Sala(dto);
+        salaRepository.save(sala);
+    }
+
+    @Transactional
+    public void atualizarSala(SalaUpdateRequest dto) {
+
+        if (!salaRepository.existsById(dto.id())) {
+            throw new EntityNotFoundException("Sala não encontrada");
+        }
+
+        Sala sala = salaRepository.getReferenceById(dto.id());
+        sala.atualizarInformacoes(dto);
+    }
+
+    @Transactional
+    public void deletarSala(Long id) {
+
+        if (!salaRepository.existsById(id)) {
+            throw new EntityNotFoundException("Sala não encontrada");
+        }
+        salaRepository.deleteById(id);
     }
 }

@@ -1,12 +1,13 @@
 package com.bertan.challenge_alura_backend.controller;
 
+import com.bertan.challenge_alura_backend.dto.SalaRequest;
 import com.bertan.challenge_alura_backend.dto.SalaResponse;
+import com.bertan.challenge_alura_backend.dto.SalaUpdateRequest;
 import com.bertan.challenge_alura_backend.service.SalaService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +34,27 @@ public class SalaController {
 
         SalaResponse sala = salaService.buscarSalaPorId(id);
         return ResponseEntity.ok(sala);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> criarSala(@RequestBody @Valid SalaRequest dto) {
+
+        salaService.criarSala(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Sala criada com sucesso");
+    }
+
+    @PutMapping
+    public ResponseEntity<String> atualizarSala(@RequestBody @Valid SalaUpdateRequest dto) {
+
+        salaService.atualizarSala(dto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletarSala(@PathVariable Long id) {
+
+        salaService.deletarSala(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
