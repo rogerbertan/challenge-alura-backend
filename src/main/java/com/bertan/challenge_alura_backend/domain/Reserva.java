@@ -1,6 +1,9 @@
 package com.bertan.challenge_alura_backend.domain;
 
+import com.bertan.challenge_alura_backend.dto.ReservaUpdateRequest;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservas")
@@ -16,9 +19,9 @@ public class Reserva {
     @ManyToOne(fetch = FetchType.LAZY)
     Sala sala;
 
-    String dataHoraInicio;
+    LocalDateTime dataHoraInicio;
 
-    String dataHoraFim;
+    LocalDateTime dataHoraFim;
 
     Integer numeroPessoas;
 
@@ -27,13 +30,25 @@ public class Reserva {
 
     public Reserva() {}
 
-    public Reserva(Usuario usuario, Sala sala, String dataHoraInicio, String dataHoraFim, Integer numeroPessoas) {
+    public Reserva(Usuario usuario, Sala sala, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, Integer numeroPessoas) {
         this.usuario = usuario;
         this.sala = sala;
         this.dataHoraInicio = dataHoraInicio;
         this.dataHoraFim = dataHoraFim;
         this.numeroPessoas = numeroPessoas;
         this.statusReserva = StatusReserva.ATIVA;
+    }
+
+    public void atualizarInformacoes(Usuario usuario, Sala sala, ReservaUpdateRequest dto) {
+        this.usuario = usuario;
+        this.sala = sala;
+        this.dataHoraInicio = dto.dataHoraInicio();
+        this.dataHoraFim = dto.dataHoraFim();
+        this.numeroPessoas = dto.numeroPessoas();
+    }
+
+    public void cancelarReserva() {
+        this.statusReserva = StatusReserva.CANCELADA;
     }
 
     public Long getId() {
@@ -56,19 +71,19 @@ public class Reserva {
         this.sala = sala;
     }
 
-    public String getDataHoraInicio() {
+    public LocalDateTime getDataHoraInicio() {
         return dataHoraInicio;
     }
 
-    public void setDataHoraInicio(String dataHoraInicio) {
+    public void setDataHoraInicio(LocalDateTime dataHoraInicio) {
         this.dataHoraInicio = dataHoraInicio;
     }
 
-    public String getDataHoraFim() {
+    public LocalDateTime getDataHoraFim() {
         return dataHoraFim;
     }
 
-    public void setDataHoraFim(String dataHoraFim) {
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
         this.dataHoraFim = dataHoraFim;
     }
 
