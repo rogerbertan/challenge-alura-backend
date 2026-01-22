@@ -1,8 +1,8 @@
 package com.bertan.challenge_alura_backend.controller;
 
-import com.bertan.challenge_alura_backend.dto.ReservaRequest;
-import com.bertan.challenge_alura_backend.dto.ReservaResponse;
-import com.bertan.challenge_alura_backend.dto.ReservaUpdateRequest;
+import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
+import com.bertan.challenge_alura_backend.dto.reserva.ReservaResponse;
+import com.bertan.challenge_alura_backend.dto.reserva.ReservaUpdateRequest;
 import com.bertan.challenge_alura_backend.service.ReservaService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

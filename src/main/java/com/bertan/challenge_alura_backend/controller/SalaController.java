@@ -1,8 +1,8 @@
 package com.bertan.challenge_alura_backend.controller;
 
-import com.bertan.challenge_alura_backend.dto.SalaRequest;
-import com.bertan.challenge_alura_backend.dto.SalaResponse;
-import com.bertan.challenge_alura_backend.dto.SalaUpdateRequest;
+import com.bertan.challenge_alura_backend.dto.sala.SalaRequest;
+import com.bertan.challenge_alura_backend.dto.sala.SalaResponse;
+import com.bertan.challenge_alura_backend.dto.sala.SalaUpdateRequest;
 import com.bertan.challenge_alura_backend.service.SalaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

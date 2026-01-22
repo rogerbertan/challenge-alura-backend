@@ -1,4 +1,4 @@
-package com.bertan.challenge_alura_backend.dto;
+package com.bertan.challenge_alura_backend.dto.sala;
 
 import com.bertan.challenge_alura_backend.domain.Sala;
 

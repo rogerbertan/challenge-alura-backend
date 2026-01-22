@@ -1,9 +1,9 @@
 package com.bertan.challenge_alura_backend.service;
 
 import com.bertan.challenge_alura_backend.domain.Usuario;
-import com.bertan.challenge_alura_backend.dto.UsuarioRequest;
-import com.bertan.challenge_alura_backend.dto.UsuarioResponse;
-import com.bertan.challenge_alura_backend.dto.UsuarioUpdateRequest;
+import com.bertan.challenge_alura_backend.dto.usuario.UsuarioRequest;
+import com.bertan.challenge_alura_backend.dto.usuario.UsuarioResponse;
+import com.bertan.challenge_alura_backend.dto.usuario.UsuarioUpdateRequest;
 import com.bertan.challenge_alura_backend.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

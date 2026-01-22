@@ -1,6 +1,6 @@
 package com.bertan.challenge_alura_backend.domain;
 
-import com.bertan.challenge_alura_backend.dto.ReservaUpdateRequest;
+import com.bertan.challenge_alura_backend.dto.reserva.ReservaUpdateRequest;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

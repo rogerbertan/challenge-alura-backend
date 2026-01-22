@@ -1,7 +1,7 @@
 package com.bertan.challenge_alura_backend.domain;
 
-import com.bertan.challenge_alura_backend.dto.UsuarioRequest;
-import com.bertan.challenge_alura_backend.dto.UsuarioUpdateRequest;
+import com.bertan.challenge_alura_backend.dto.usuario.UsuarioRequest;
+import com.bertan.challenge_alura_backend.dto.usuario.UsuarioUpdateRequest;
 import jakarta.persistence.*;
 
 @Entity

@@ -1,8 +1,8 @@
 package com.bertan.challenge_alura_backend.controller;
 
-import com.bertan.challenge_alura_backend.dto.UsuarioRequest;
-import com.bertan.challenge_alura_backend.dto.UsuarioResponse;
-import com.bertan.challenge_alura_backend.dto.UsuarioUpdateRequest;
+import com.bertan.challenge_alura_backend.dto.usuario.UsuarioRequest;
+import com.bertan.challenge_alura_backend.dto.usuario.UsuarioResponse;
+import com.bertan.challenge_alura_backend.dto.usuario.UsuarioUpdateRequest;
 import com.bertan.challenge_alura_backend.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

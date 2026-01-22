@@ -1,19 +1,20 @@
-package com.bertan.challenge_alura_backend.dto;
+package com.bertan.challenge_alura_backend.dto.reserva;
 
 import com.bertan.challenge_alura_backend.domain.Reserva;
-import com.bertan.challenge_alura_backend.domain.Usuario;
 
 import java.time.LocalDateTime;
 
-public record ReservaRequest(
+public record ReservaUpdateRequest(
+    Long id,
     Long usuarioId,
     Long salaId,
     LocalDateTime dataHoraInicio,
     LocalDateTime dataHoraFim,
     Integer numeroPessoas
 ) {
-    public ReservaRequest(Reserva reserva) {
+    public ReservaUpdateRequest(Reserva reserva) {
         this(
+                reserva.getId(),
             reserva.getUsuario().getId(),
             reserva.getSala().getId(),
             reserva.getDataHoraInicio(),
