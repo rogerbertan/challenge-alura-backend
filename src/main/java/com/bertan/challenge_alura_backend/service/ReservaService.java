@@ -9,11 +9,15 @@ import com.bertan.challenge_alura_backend.dto.reserva.ReservaUpdateRequest;
 import com.bertan.challenge_alura_backend.repository.ReservaRepository;
 import com.bertan.challenge_alura_backend.repository.SalaRepository;
 import com.bertan.challenge_alura_backend.repository.UsuarioRepository;
+import com.bertan.challenge_alura_backend.validations.ValidationReservaRequest;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ReservaService {
@@ -21,11 +25,13 @@ public class ReservaService {
     private final ReservaRepository reservaRepository;
     private final UsuarioRepository usuarioRepository;
     private final SalaRepository salaRepository;
+    private final List<ValidationReservaRequest> validations;
 
-    public ReservaService(ReservaRepository reservaRepository, UsuarioRepository usuarioRepository, SalaRepository salaRepository) {
+    public ReservaService(ReservaRepository reservaRepository, UsuarioRepository usuarioRepository, SalaRepository salaRepository, List<ValidationReservaRequest> validations) {
         this.reservaRepository = reservaRepository;
         this.usuarioRepository = usuarioRepository;
         this.salaRepository = salaRepository;
+        this.validations = validations;
     }
 
     public Page<ReservaResponse> listarReservas(int page, int size) {
@@ -39,19 +45,19 @@ public class ReservaService {
 
         return reservaRepository.findById(id)
                 .map(ReservaResponse::new)
-                .orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Reserva não encontrada"));
     }
 
     @Transactional
     public void criarReserva(ReservaRequest dto) {
 
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
         Sala sala = salaRepository.findById(dto.salaId())
-                .orElseThrow(() -> new RuntimeException("Sala não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Sala não encontrada"));
 
-        //validations
+        validations.forEach(v -> v.validar(dto));
 
         Reserva reserva = new Reserva(
                 usuario,
@@ -68,18 +74,25 @@ public class ReservaService {
     public void atualizarReserva(ReservaUpdateRequest dto) {
 
         if (!reservaRepository.existsById(dto.id())) {
-            throw new RuntimeException("Reserva não encontrada");
+            throw new EntityNotFoundException("Reserva não encontrada");
         }
 
         Reserva reserva = reservaRepository.getReferenceById(dto.id());
+        ReservaRequest reservaRequest = new ReservaRequest(
+                dto.usuarioId(),
+                dto.salaId(),
+                dto.dataHoraInicio(),
+                dto.dataHoraFim(),
+                dto.numeroPessoas()
+        );
 
-        //validations
+        validations.forEach(v -> v.validar(reservaRequest));
 
         Sala sala = salaRepository.findById(dto.salaId())
-                .orElseThrow(() -> new RuntimeException("Sala não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Sala não encontrada"));
 
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
         reserva.atualizarInformacoes(usuario, sala, dto);
     }
@@ -88,7 +101,7 @@ public class ReservaService {
     public void cancelarReserva(Long id) {
 
         if (!reservaRepository.existsById(id)) {
-            throw new RuntimeException("Reserva não encontrada");
+            throw new EntityNotFoundException("Reserva não encontrada");
         }
 
         Reserva reserva = reservaRepository.getReferenceById(id);
