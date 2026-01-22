@@ -1,0 +1,5 @@
+CREATE TABLE salas (
+    id BIGINT GENERATED AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(255),
+    capacidade INTEGER
+);

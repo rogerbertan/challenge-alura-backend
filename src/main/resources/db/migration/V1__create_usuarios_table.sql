@@ -1,0 +1,5 @@
+CREATE TABLE usuarios (
+    id BIGINT GENERATED AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(255),
+    email VARCHAR(255)
+);

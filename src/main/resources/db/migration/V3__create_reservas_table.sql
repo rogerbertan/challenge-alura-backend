@@ -1,0 +1,11 @@
+CREATE TABLE reservas (
+    id BIGINT GENERATED AS IDENTITY PRIMARY KEY,
+    usuario_id BIGINT,
+    sala_id BIGINT,
+    data_hora_inicio TIMESTAMP,
+    data_hora_fim TIMESTAMP,
+    numero_pessoas INTEGER,
+    status_reserva VARCHAR(50),
+    CONSTRAINT fk_reservas_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    CONSTRAINT fk_reservas_sala FOREIGN KEY (sala_id) REFERENCES salas(id)
+);
