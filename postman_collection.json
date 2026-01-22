@@ -1,0 +1,488 @@
+{
+  "info": {
+    "_postman_id": "challenge-alura-backend",
+    "name": "Challenge Alura Backend API",
+    "description": "API for managing room reservations (Salas, Usuarios, Reservas)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Salas",
+      "description": "Endpoints for managing rooms (salas)",
+      "item": [
+        {
+          "name": "Get All Salas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/salas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "salas"]
+            },
+            "description": "Retrieves a list of all rooms"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"id\": 1,\n    \"nome\": \"Sala de Reuniões A\",\n    \"capacidade\": 10\n  },\n  {\n    \"id\": 2,\n    \"nome\": \"Sala de Conferências\",\n    \"capacidade\": 50\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Sala by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/salas/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "salas", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Sala ID"
+                }
+              ]
+            },
+            "description": "Retrieves a specific room by its ID"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"id\": 1,\n  \"nome\": \"Sala de Reuniões A\",\n  \"capacidade\": 10\n}"
+            },
+            {
+              "name": "Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "body": "\"Sala não encontrada\""
+            }
+          ]
+        },
+        {
+          "name": "Create Sala",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Sala de Reuniões A\",\n  \"capacidade\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/salas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "salas"]
+            },
+            "description": "Creates a new room"
+          },
+          "response": [
+            {
+              "name": "Created",
+              "status": "Created",
+              "code": 201,
+              "body": "\"Sala cadastrada com sucesso!\""
+            }
+          ]
+        },
+        {
+          "name": "Update Sala",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"nome\": \"Sala de Reuniões A - Atualizada\",\n  \"capacidade\": 15\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/salas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "salas"]
+            },
+            "description": "Updates an existing room"
+          },
+          "response": [
+            {
+              "name": "No Content",
+              "status": "No Content",
+              "code": 204,
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Delete Sala",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/salas/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "salas", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Sala ID"
+                }
+              ]
+            },
+            "description": "Deletes a room by its ID"
+          },
+          "response": [
+            {
+              "name": "No Content",
+              "status": "No Content",
+              "code": 204,
+              "body": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "description": "Endpoints for managing users (usuarios)",
+      "item": [
+        {
+          "name": "Get All Usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios"]
+            },
+            "description": "Retrieves a list of all users"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"id\": 1,\n    \"nome\": \"João Silva\",\n    \"email\": \"joao.silva@email.com\"\n  },\n  {\n    \"id\": 2,\n    \"nome\": \"Maria Santos\",\n    \"email\": \"maria.santos@email.com\"\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Usuario by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Usuario ID"
+                }
+              ]
+            },
+            "description": "Retrieves a specific user by their ID"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"id\": 1,\n  \"nome\": \"João Silva\",\n  \"email\": \"joao.silva@email.com\"\n}"
+            },
+            {
+              "name": "Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "body": "\"Usuário não encontrado\""
+            }
+          ]
+        },
+        {
+          "name": "Create Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao.silva@email.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios"]
+            },
+            "description": "Creates a new user"
+          },
+          "response": [
+            {
+              "name": "Created",
+              "status": "Created",
+              "code": 201,
+              "body": "\"Usuário cadastrado com sucesso!\""
+            }
+          ]
+        },
+        {
+          "name": "Update Usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"nome\": \"João Silva Atualizado\",\n  \"email\": \"joao.silva.novo@email.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios"]
+            },
+            "description": "Updates an existing user"
+          },
+          "response": [
+            {
+              "name": "No Content",
+              "status": "No Content",
+              "code": 204,
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Delete Usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Usuario ID"
+                }
+              ]
+            },
+            "description": "Deletes a user by their ID"
+          },
+          "response": [
+            {
+              "name": "No Content",
+              "status": "No Content",
+              "code": 204,
+              "body": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reservas",
+      "description": "Endpoints for managing reservations (reservas)",
+      "item": [
+        {
+          "name": "Get All Reservas (Paginated)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reservas?page=0&size=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reservas"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0",
+                  "description": "Page number (0-indexed)"
+                },
+                {
+                  "key": "size",
+                  "value": "10",
+                  "description": "Number of items per page"
+                }
+              ]
+            },
+            "description": "Retrieves a paginated list of all reservations"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"content\": [\n    {\n      \"id\": 1,\n      \"usuario\": {\n        \"id\": 1,\n        \"nome\": \"João Silva\",\n        \"email\": \"joao.silva@email.com\"\n      },\n      \"sala\": {\n        \"id\": 1,\n        \"nome\": \"Sala de Reuniões A\",\n        \"capacidade\": 10\n      },\n      \"dataHoraInicio\": \"2024-01-15T09:00:00\",\n      \"dataHoraFim\": \"2024-01-15T10:00:00\",\n      \"statusReserva\": \"ATIVA\"\n    }\n  ],\n  \"pageable\": {\n    \"pageNumber\": 0,\n    \"pageSize\": 10\n  },\n  \"totalElements\": 1,\n  \"totalPages\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Reserva by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reservas/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reservas", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Reserva ID"
+                }
+              ]
+            },
+            "description": "Retrieves a specific reservation by its ID"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"id\": 1,\n  \"usuario\": {\n    \"id\": 1,\n    \"nome\": \"João Silva\",\n    \"email\": \"joao.silva@email.com\"\n  },\n  \"sala\": {\n    \"id\": 1,\n    \"nome\": \"Sala de Reuniões A\",\n    \"capacidade\": 10\n  },\n  \"dataHoraInicio\": \"2024-01-15T09:00:00\",\n  \"dataHoraFim\": \"2024-01-15T10:00:00\",\n  \"statusReserva\": \"ATIVA\"\n}"
+            },
+            {
+              "name": "Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "body": "\"Reserva não encontrada\""
+            }
+          ]
+        },
+        {
+          "name": "Create Reserva",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usuarioId\": 1,\n  \"salaId\": 1,\n  \"dataHoraInicio\": \"2024-01-15T09:00:00\",\n  \"dataHoraFim\": \"2024-01-15T10:00:00\",\n  \"numeroPessoas\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reservas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reservas"]
+            },
+            "description": "Creates a new reservation. Validates that the room is available during the requested time period and that the end time is after the start time."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "\"Reserva cadastrada com sucesso!\""
+            },
+            {
+              "name": "Room Not Available",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "\"Sala não disponível no horário solicitado\""
+            },
+            {
+              "name": "Invalid Time",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "\"Data e hora de fim deve ser maior que data e hora de início\""
+            }
+          ]
+        },
+        {
+          "name": "Update Reserva",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"usuarioId\": 1,\n  \"salaId\": 2,\n  \"dataHoraInicio\": \"2024-01-15T14:00:00\",\n  \"dataHoraFim\": \"2024-01-15T15:00:00\",\n  \"numeroPessoas\": 8\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reservas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reservas"]
+            },
+            "description": "Updates an existing reservation"
+          },
+          "response": [
+            {
+              "name": "No Content",
+              "status": "No Content",
+              "code": 204,
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Cancel Reserva",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reservas/cancelar/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reservas", "cancelar", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Reserva ID"
+                }
+              ]
+            },
+            "description": "Cancels a reservation (changes status to CANCELADA)"
+          },
+          "response": [
+            {
+              "name": "No Content",
+              "status": "No Content",
+              "code": 204,
+              "body": "\"Reserva cancelada com sucesso!\""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,9 @@ package com.bertan.challenge_alura_backend.validations;
 
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
 import com.bertan.challenge_alura_backend.exception.ValidationReservaException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ValidationHorarioDeFimMenorQueInicio implements ValidationReservaRequest {
 
     @Override

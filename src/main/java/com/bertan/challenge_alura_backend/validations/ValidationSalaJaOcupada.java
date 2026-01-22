@@ -4,7 +4,9 @@ import com.bertan.challenge_alura_backend.domain.StatusReserva;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
 import com.bertan.challenge_alura_backend.exception.ValidationReservaException;
 import com.bertan.challenge_alura_backend.repository.ReservaRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ValidationSalaJaOcupada implements ValidationReservaRequest {
 
     private final ReservaRepository reservaRepository;
