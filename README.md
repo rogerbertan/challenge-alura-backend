@@ -23,6 +23,22 @@ O [Challenge I de Backend Java da Alura](https://cursos.alura.com.br/course/chec
 5. **Versionamento** — commits pequenos, mensagens claras e pull requests para mudanças significativas
 6. **Docker** *(opcional)* — empacotamento da aplicação em contêiner para padronizar ambientes
 
+## Design Patterns
+
+### Chain of Responsibility — Validações de Reserva
+
+![Chain of Responsibility](.github/chain-of-responsability-pattern.jpg)
+
+As validações aplicadas ao criar ou atualizar uma reserva seguem o padrão **Chain of Responsibility**. Cada regra de negócio é implementada em uma classe separada que implementa a interface `ValidationReservaRequest`, e o `ReservaService` recebe automaticamente todas elas via injeção de dependência do Spring:
+
+```java
+private final List<ValidationReservaRequest> validations;
+// ...
+validations.forEach(v -> v.validar(dto));
+```
+
+Isso garante que adicionar uma nova validação não exige nenhuma alteração no serviço — basta criar uma nova classe que implemente a interface.
+
 ## Tecnologias
 
 - [![Spring Boot][SpringBoot]][SpringBoot-url]
