@@ -4,6 +4,7 @@ import com.bertan.challenge_alura_backend.dto.usuario.UsuarioRequest;
 import com.bertan.challenge_alura_backend.dto.usuario.UsuarioResponse;
 import com.bertan.challenge_alura_backend.dto.usuario.UsuarioUpdateRequest;
 import com.bertan.challenge_alura_backend.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,14 +36,14 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<String> criarUsuario(@RequestBody UsuarioRequest dto) {
+    public ResponseEntity<String> criarUsuario(@Valid @RequestBody UsuarioRequest dto) {
 
         usuarioService.criarUsuario(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado com sucesso");
     }
 
     @PutMapping
-    public ResponseEntity<String> atualizarUsuario(@RequestBody UsuarioUpdateRequest dto) {
+    public ResponseEntity<String> atualizarUsuario(@Valid @RequestBody UsuarioUpdateRequest dto) {
 
         usuarioService.atualizarUsuario(dto);
         return ResponseEntity.noContent().build();

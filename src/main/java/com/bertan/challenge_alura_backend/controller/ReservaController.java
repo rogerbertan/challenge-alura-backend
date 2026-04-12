@@ -4,6 +4,7 @@ import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaResponse;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaUpdateRequest;
 import com.bertan.challenge_alura_backend.service.ReservaService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +36,14 @@ public class ReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<String> criarReserva(@RequestBody ReservaRequest dto) {
+    public ResponseEntity<String> criarReserva(@Valid @RequestBody ReservaRequest dto) {
 
         reservaService.criarReserva(dto);
         return ResponseEntity.ok("Reserva criada com sucesso");
     }
 
     @PutMapping
-    public ResponseEntity<String> atualizarReserva(@RequestBody ReservaUpdateRequest dto) {
+    public ResponseEntity<String> atualizarReserva(@Valid @RequestBody ReservaUpdateRequest dto) {
 
         reservaService.atualizarReserva(dto);
         return ResponseEntity.noContent().build();
