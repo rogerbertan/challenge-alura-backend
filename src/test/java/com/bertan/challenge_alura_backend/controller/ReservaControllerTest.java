@@ -4,6 +4,7 @@ import com.bertan.challenge_alura_backend.domain.StatusReserva;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaResponse;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaUpdateRequest;
+import com.bertan.challenge_alura_backend.exception.ValidationReservaException;
 import com.bertan.challenge_alura_backend.service.ReservaService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -123,5 +125,36 @@ class ReservaControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(reservaService).cancelarReserva(1L);
+    }
+
+    @Test
+    void shouldReturn400WithValidationMessage_whenValidationReservaExceptionThrown() throws Exception {
+        ReservaRequest request = new ReservaRequest(1L, 1L, dataHoraInicio, dataHoraFim, 5);
+        doThrow(new ValidationReservaException("Sala já ocupada neste horário"))
+                .when(reservaService).criarReserva(any(ReservaRequest.class));
+
+        mockMvc.perform(post("/api/v1/reservas")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(reservaRequestJson.write(request).getJson()))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Sala já ocupada neste horário"));
+    }
+
+    @Test
+    void shouldReturn400WithFieldErrors_whenRequestBodyIsInvalid() throws Exception {
+        mockMvc.perform(post("/api/v1/reservas")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"usuarioId\": null, \"salaId\": null}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(containsString(":")));
+    }
+
+    @Test
+    void shouldReturn500_whenUnexpectedExceptionThrown() throws Exception {
+        when(reservaService.obterReservaPorId(1L)).thenThrow(new RuntimeException("erro inesperado"));
+
+        mockMvc.perform(get("/api/v1/reservas/1"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string("Erro interno no servidor"));
     }
 }

@@ -207,4 +207,31 @@ class ReservaServiceTest {
                 .hasMessage("Reserva não encontrada");
         verify(reservaRepository).findById(99L);
     }
+
+    @Test
+    void shouldThrowEntityNotFoundException_whenUpdatingSalaNotFound() {
+        ReservaUpdateRequest request = new ReservaUpdateRequest(1L, 1L, 99L, dataHoraInicio, dataHoraFim, 5);
+        when(reservaRepository.findById(1L)).thenReturn(Optional.of(reserva));
+        doNothing().when(validation).validate(any(ReservaRequest.class));
+        when(salaRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> reservaService.atualizarReserva(request))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("Sala não encontrada");
+        verify(salaRepository).findById(99L);
+    }
+
+    @Test
+    void shouldThrowEntityNotFoundException_whenUpdatingUsuarioNotFound() {
+        ReservaUpdateRequest request = new ReservaUpdateRequest(1L, 99L, 1L, dataHoraInicio, dataHoraFim, 5);
+        when(reservaRepository.findById(1L)).thenReturn(Optional.of(reserva));
+        doNothing().when(validation).validate(any(ReservaRequest.class));
+        when(salaRepository.findById(1L)).thenReturn(Optional.of(sala));
+        when(usuarioRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> reservaService.atualizarReserva(request))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("Usuário não encontrado");
+        verify(usuarioRepository).findById(99L);
+    }
 }
