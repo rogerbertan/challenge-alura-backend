@@ -1,16 +1,14 @@
 package com.bertan.challenge_alura_backend.dto.reserva;
 
 import com.bertan.challenge_alura_backend.domain.Reserva;
-import com.bertan.challenge_alura_backend.domain.Sala;
 import com.bertan.challenge_alura_backend.domain.StatusReserva;
-import com.bertan.challenge_alura_backend.domain.Usuario;
 
 import java.time.LocalDateTime;
 
 public record ReservaResponse(
     Long id,
-    Usuario usuario,
-    Sala sala,
+    Long usuarioId,
+    Long salaId,
     LocalDateTime dataHoraInicio,
     LocalDateTime dataHoraFim,
     StatusReserva statusReserva
@@ -18,8 +16,8 @@ public record ReservaResponse(
     public ReservaResponse(Reserva reserva) {
         this(
             reserva.getId(),
-            reserva.getUsuario(),
-            reserva.getSala(),
+            reserva.getUsuario().getId(),
+            reserva.getSala().getId(),
             reserva.getDataHoraInicio(),
             reserva.getDataHoraFim(),
             reserva.getStatusReserva()

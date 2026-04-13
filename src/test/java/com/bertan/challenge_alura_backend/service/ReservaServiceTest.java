@@ -98,8 +98,8 @@ class ReservaServiceTest {
 
         ReservaResponse result = reservaService.obterReservaPorId(1L);
 
-        assertThat(result.usuario()).isEqualTo(usuario);
-        assertThat(result.sala()).isEqualTo(sala);
+        assertThat(result.usuarioId()).isEqualTo(usuario);
+        assertThat(result.salaId()).isEqualTo(sala);
         assertThat(result.statusReserva()).isEqualTo(StatusReserva.ATIVA);
         verify(reservaRepository).findById(1L);
     }
