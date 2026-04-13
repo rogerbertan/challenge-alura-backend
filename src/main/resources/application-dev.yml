@@ -7,5 +7,5 @@ spring:
     hibernate:
       ddl-auto: create-drop
   h2:
-  console:
-    enabled: true
+    console:
+      enabled: true
