@@ -44,11 +44,8 @@ public class UsuarioService {
     @Transactional
     public void atualizarUsuario(UsuarioUpdateRequest dto) {
 
-        if (!usuarioRepository.existsById(dto.id())) {
-            throw new EntityNotFoundException("Usuário não encontrado com o id: " + dto.id());
-        }
-
-        Usuario usuario = usuarioRepository.getReferenceById(dto.id());
+        Usuario usuario = usuarioRepository.findById(dto.id())
+                        .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o id: " + dto.id()));
         usuario.atualizarInformacoes(dto);
     }
 

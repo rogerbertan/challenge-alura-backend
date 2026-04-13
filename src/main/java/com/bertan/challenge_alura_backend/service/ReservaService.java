@@ -73,11 +73,9 @@ public class ReservaService {
     @Transactional
     public void atualizarReserva(ReservaUpdateRequest dto) {
 
-        if (!reservaRepository.existsById(dto.id())) {
-            throw new EntityNotFoundException("Reserva não encontrada");
-        }
+        Reserva reserva = reservaRepository.findById(dto.id())
+                .orElseThrow(() -> new EntityNotFoundException("Reserva não encontrada"));
 
-        Reserva reserva = reservaRepository.getReferenceById(dto.id());
         ReservaRequest reservaRequest = new ReservaRequest(
                 dto.usuarioId(),
                 dto.salaId(),
@@ -100,11 +98,8 @@ public class ReservaService {
     @Transactional
     public void cancelarReserva(Long id) {
 
-        if (!reservaRepository.existsById(id)) {
-            throw new EntityNotFoundException("Reserva não encontrada");
-        }
-
-        Reserva reserva = reservaRepository.getReferenceById(id);
+        Reserva reserva = reservaRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Reserva não encontrada"));
         reserva.cancelarReserva();
     }
 }

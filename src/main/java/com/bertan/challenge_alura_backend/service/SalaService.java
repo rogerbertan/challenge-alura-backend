@@ -45,11 +45,8 @@ public class SalaService {
     @Transactional
     public void atualizarSala(SalaUpdateRequest dto) {
 
-        if (!salaRepository.existsById(dto.id())) {
-            throw new EntityNotFoundException("Sala não encontrada");
-        }
-
-        Sala sala = salaRepository.getReferenceById(dto.id());
+        Sala sala = salaRepository.findById(dto.id())
+                        .orElseThrow(() -> new EntityNotFoundException("Sala não encontrada"));
         sala.atualizarInformacoes(dto);
     }
 
