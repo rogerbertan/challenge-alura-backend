@@ -39,7 +39,7 @@ public class ReservaController {
     public ResponseEntity<String> criarReserva(@Valid @RequestBody ReservaRequest dto) {
 
         reservaService.criarReserva(dto);
-        return ResponseEntity.ok("Reserva criada com sucesso");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Reserva criada com sucesso");
     }
 
     @PutMapping
