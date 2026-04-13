@@ -13,7 +13,6 @@ import com.bertan.challenge_alura_backend.repository.UsuarioRepository;
 import com.bertan.challenge_alura_backend.validations.ValidationReservaRequest;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -68,7 +67,6 @@ class ReservaServiceTest {
     }
 
     @Test
-    @DisplayName("Should return page of reservations when reservations exist")
     void shouldReturnPageOfReservations_whenReservationsExist() {
         Page<Reserva> pageReserva = new PageImpl<>(List.of(reserva));
         when(reservaRepository.findAll(any(Pageable.class))).thenReturn(pageReserva);
@@ -80,7 +78,6 @@ class ReservaServiceTest {
     }
 
     @Test
-    @DisplayName("Should return empty page when no reservations exist")
     void shouldReturnEmptyPage_whenNoReservationsExist() {
         Page<Reserva> emptyPage = new PageImpl<>(Collections.emptyList());
         when(reservaRepository.findAll(any(Pageable.class))).thenReturn(emptyPage);
@@ -92,20 +89,18 @@ class ReservaServiceTest {
     }
 
     @Test
-    @DisplayName("Should return reservation when reservation exists")
     void shouldReturnReservation_whenReservationExists() {
         when(reservaRepository.findById(1L)).thenReturn(Optional.of(reserva));
 
         ReservaResponse result = reservaService.obterReservaPorId(1L);
 
-        assertThat(result.usuarioId()).isEqualTo(usuario);
-        assertThat(result.salaId()).isEqualTo(sala);
+        assertThat(result.usuarioId()).isEqualTo(1L);
+        assertThat(result.salaId()).isEqualTo(1L);
         assertThat(result.statusReserva()).isEqualTo(StatusReserva.ATIVA);
         verify(reservaRepository).findById(1L);
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when reservation not found")
     void shouldThrowEntityNotFoundException_whenReservationNotFound() {
         when(reservaRepository.findById(99L)).thenReturn(Optional.empty());
 
@@ -116,7 +111,6 @@ class ReservaServiceTest {
     }
 
     @Test
-    @DisplayName("Should save reservation when valid data")
     void shouldSaveReservation_whenValidData() {
         ReservaRequest request = new ReservaRequest(1L, 1L, dataHoraInicio, dataHoraFim, 5);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
@@ -132,7 +126,6 @@ class ReservaServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when user not found")
     void shouldThrowEntityNotFoundException_whenUserNotFound() {
         ReservaRequest request = new ReservaRequest(99L, 1L, dataHoraInicio, dataHoraFim, 5);
         when(usuarioRepository.findById(99L)).thenReturn(Optional.empty());
@@ -146,7 +139,6 @@ class ReservaServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when room not found")
     void shouldThrowEntityNotFoundException_whenRoomNotFound() {
         ReservaRequest request = new ReservaRequest(1L, 99L, dataHoraInicio, dataHoraFim, 5);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
@@ -161,7 +153,6 @@ class ReservaServiceTest {
     }
 
     @Test
-    @DisplayName("Should execute all validations when creating reservation")
     void shouldExecuteAllValidations_whenCreatingReservation() {
         ReservaRequest request = new ReservaRequest(1L, 1L, dataHoraInicio, dataHoraFim, 5);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
@@ -174,56 +165,46 @@ class ReservaServiceTest {
     }
 
     @Test
-    @DisplayName("Should update reservation when reservation exists")
     void shouldUpdateReservation_whenReservationExists() {
         ReservaUpdateRequest request = new ReservaUpdateRequest(1L, 1L, 1L, dataHoraInicio, dataHoraFim, 5);
-        when(reservaRepository.existsById(1L)).thenReturn(true);
-        when(reservaRepository.getReferenceById(1L)).thenReturn(reserva);
+        when(reservaRepository.findById(1L)).thenReturn(Optional.of(reserva));
         when(salaRepository.findById(1L)).thenReturn(Optional.of(sala));
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         doNothing().when(validation).validate(any(ReservaRequest.class));
 
         reservaService.atualizarReserva(request);
 
-        verify(reservaRepository).existsById(1L);
-        verify(reservaRepository).getReferenceById(1L);
+        verify(reservaRepository).findById(1L);
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when updating non-existent reservation")
     void shouldThrowEntityNotFoundException_whenUpdatingNonExistentReservation() {
         ReservaUpdateRequest request = new ReservaUpdateRequest(99L, 1L, 1L, dataHoraInicio, dataHoraFim, 5);
-        when(reservaRepository.existsById(99L)).thenReturn(false);
+        when(reservaRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> reservaService.atualizarReserva(request))
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("Reserva não encontrada");
-        verify(reservaRepository).existsById(99L);
-        verify(reservaRepository, never()).getReferenceById(any());
+        verify(reservaRepository).findById(99L);
     }
 
     @Test
-    @DisplayName("Should cancel reservation when reservation exists")
     void shouldCancelReservation_whenReservationExists() {
-        when(reservaRepository.existsById(1L)).thenReturn(true);
-        when(reservaRepository.getReferenceById(1L)).thenReturn(reserva);
+        when(reservaRepository.findById(1L)).thenReturn(Optional.of(reserva));
 
         reservaService.cancelarReserva(1L);
 
         assertThat(reserva.getStatusReserva()).isEqualTo(StatusReserva.CANCELADA);
-        verify(reservaRepository).existsById(1L);
-        verify(reservaRepository).getReferenceById(1L);
+        verify(reservaRepository).findById(1L);
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when cancelling non-existent reservation")
     void shouldThrowEntityNotFoundException_whenCancellingNonExistentReservation() {
-        when(reservaRepository.existsById(99L)).thenReturn(false);
+        when(reservaRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> reservaService.cancelarReserva(99L))
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("Reserva não encontrada");
-        verify(reservaRepository).existsById(99L);
-        verify(reservaRepository, never()).getReferenceById(any());
+        verify(reservaRepository).findById(99L);
     }
 }

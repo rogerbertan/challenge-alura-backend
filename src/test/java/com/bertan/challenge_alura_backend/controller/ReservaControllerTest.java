@@ -1,15 +1,12 @@
 package com.bertan.challenge_alura_backend.controller;
 
-import com.bertan.challenge_alura_backend.domain.Sala;
 import com.bertan.challenge_alura_backend.domain.StatusReserva;
-import com.bertan.challenge_alura_backend.domain.Usuario;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaResponse;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaUpdateRequest;
 import com.bertan.challenge_alura_backend.service.ReservaService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
@@ -44,23 +41,18 @@ class ReservaControllerTest {
     @Autowired
     private JacksonTester<ReservaUpdateRequest> reservaUpdateRequestJson;
 
-    private Usuario usuario;
-    private Sala sala;
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
 
     @BeforeEach
     void setUp() {
-        usuario = new Usuario(1L, "Joao Silva", "joao@email.com");
-        sala = new Sala(1L, "Sala de Reunioes", 10);
         dataHoraInicio = LocalDateTime.of(2025, 1, 20, 10, 0);
         dataHoraFim = LocalDateTime.of(2025, 1, 20, 12, 0);
     }
 
     @Test
-    @DisplayName("Should return page of reservations when reservations exist")
     void shouldReturnPageOfReservations_whenReservationsExist() throws Exception {
-        ReservaResponse response = new ReservaResponse(1L, usuario, sala, dataHoraInicio, dataHoraFim, StatusReserva.ATIVA);
+        ReservaResponse response = new ReservaResponse(1L, 1L, 1L, dataHoraInicio, dataHoraFim, StatusReserva.ATIVA, 5);
         Page<ReservaResponse> page = new PageImpl<>(List.of(response));
         when(reservaService.listarReservas(0, 10)).thenReturn(page);
 
@@ -75,9 +67,8 @@ class ReservaControllerTest {
     }
 
     @Test
-    @DisplayName("Should return reservation when reservation exists")
     void shouldReturnReservation_whenReservationExists() throws Exception {
-        ReservaResponse response = new ReservaResponse(1L, usuario, sala, dataHoraInicio, dataHoraFim, StatusReserva.ATIVA);
+        ReservaResponse response = new ReservaResponse(1L, 1L, 1L, dataHoraInicio, dataHoraFim, StatusReserva.ATIVA, 5);
         when(reservaService.obterReservaPorId(1L)).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/reservas/1"))
@@ -89,7 +80,6 @@ class ReservaControllerTest {
     }
 
     @Test
-    @DisplayName("Should return 404 when reservation not found")
     void shouldReturn404_whenReservationNotFound() throws Exception {
         when(reservaService.obterReservaPorId(99L)).thenThrow(new EntityNotFoundException("Reserva não encontrada"));
 
@@ -100,7 +90,6 @@ class ReservaControllerTest {
     }
 
     @Test
-    @DisplayName("Should create reservation when valid data")
     void shouldCreateReservation_whenValidData() throws Exception {
         ReservaRequest request = new ReservaRequest(1L, 1L, dataHoraInicio, dataHoraFim, 5);
         doNothing().when(reservaService).criarReserva(any(ReservaRequest.class));
@@ -108,13 +97,12 @@ class ReservaControllerTest {
         mockMvc.perform(post("/api/v1/reservas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(reservaRequestJson.write(request).getJson()))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         verify(reservaService).criarReserva(any(ReservaRequest.class));
     }
 
     @Test
-    @DisplayName("Should update reservation when reservation exists")
     void shouldUpdateReservation_whenReservationExists() throws Exception {
         ReservaUpdateRequest request = new ReservaUpdateRequest(1L, 1L, 1L, dataHoraInicio, dataHoraFim, 5);
         doNothing().when(reservaService).atualizarReserva(any(ReservaUpdateRequest.class));
@@ -128,7 +116,6 @@ class ReservaControllerTest {
     }
 
     @Test
-    @DisplayName("Should cancel reservation when reservation exists")
     void shouldCancelReservation_whenReservationExists() throws Exception {
         doNothing().when(reservaService).cancelarReserva(1L);
 

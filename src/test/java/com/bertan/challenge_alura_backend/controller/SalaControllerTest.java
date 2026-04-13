@@ -5,7 +5,6 @@ import com.bertan.challenge_alura_backend.dto.sala.SalaResponse;
 import com.bertan.challenge_alura_backend.dto.sala.SalaUpdateRequest;
 import com.bertan.challenge_alura_backend.service.SalaService;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
@@ -38,7 +37,6 @@ class SalaControllerTest {
     private JacksonTester<SalaUpdateRequest> salaUpdateRequestJson;
 
     @Test
-    @DisplayName("Should return list of rooms when rooms exist")
     void shouldReturnListOfRooms_whenRoomsExist() throws Exception {
         SalaResponse response = new SalaResponse(1L, "Sala de Reunioes", 10);
         when(salaService.listarSalas()).thenReturn(List.of(response));
@@ -53,7 +51,6 @@ class SalaControllerTest {
     }
 
     @Test
-    @DisplayName("Should return room when room exists")
     void shouldReturnRoom_whenRoomExists() throws Exception {
         SalaResponse response = new SalaResponse(1L, "Sala de Reunioes", 10);
         when(salaService.buscarSalaPorId(1L)).thenReturn(response);
@@ -68,7 +65,6 @@ class SalaControllerTest {
     }
 
     @Test
-    @DisplayName("Should return 404 when room not found")
     void shouldReturn404_whenRoomNotFound() throws Exception {
         when(salaService.buscarSalaPorId(99L)).thenThrow(new EntityNotFoundException("Sala não encontrada"));
 
@@ -79,7 +75,6 @@ class SalaControllerTest {
     }
 
     @Test
-    @DisplayName("Should create room when valid data")
     void shouldCreateRoom_whenValidData() throws Exception {
         SalaRequest request = new SalaRequest("Nova Sala", 20);
         doNothing().when(salaService).criarSala(any(SalaRequest.class));
@@ -93,7 +88,6 @@ class SalaControllerTest {
     }
 
     @Test
-    @DisplayName("Should update room when room exists")
     void shouldUpdateRoom_whenRoomExists() throws Exception {
         SalaUpdateRequest request = new SalaUpdateRequest(1L, "Sala Atualizada", 15);
         doNothing().when(salaService).atualizarSala(any(SalaUpdateRequest.class));
@@ -107,7 +101,6 @@ class SalaControllerTest {
     }
 
     @Test
-    @DisplayName("Should delete room when room exists")
     void shouldDeleteRoom_whenRoomExists() throws Exception {
         doNothing().when(salaService).deletarSala(1L);
 

@@ -5,7 +5,6 @@ import com.bertan.challenge_alura_backend.dto.usuario.UsuarioResponse;
 import com.bertan.challenge_alura_backend.dto.usuario.UsuarioUpdateRequest;
 import com.bertan.challenge_alura_backend.service.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
@@ -38,7 +37,6 @@ class UsuarioControllerTest {
     private JacksonTester<UsuarioUpdateRequest> usuarioUpdateRequestJson;
 
     @Test
-    @DisplayName("Should return list of users when users exist")
     void shouldReturnListOfUsers_whenUsersExist() throws Exception {
         UsuarioResponse response = new UsuarioResponse(1L, "Joao Silva", "joao@email.com");
         when(usuarioService.obterListaUsuarios()).thenReturn(List.of(response));
@@ -53,7 +51,6 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("Should return user when user exists")
     void shouldReturnUser_whenUserExists() throws Exception {
         UsuarioResponse response = new UsuarioResponse(1L, "Joao Silva", "joao@email.com");
         when(usuarioService.obterUsuarioPorId(1L)).thenReturn(response);
@@ -68,7 +65,6 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("Should return 404 when user not found")
     void shouldReturn404_whenUserNotFound() throws Exception {
         when(usuarioService.obterUsuarioPorId(99L)).thenThrow(new EntityNotFoundException("Usuário não encontrado"));
 
@@ -79,7 +75,6 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("Should create user when valid data")
     void shouldCreateUser_whenValidData() throws Exception {
         UsuarioRequest request = new UsuarioRequest("Novo Usuario", "novo@email.com");
         doNothing().when(usuarioService).criarUsuario(any(UsuarioRequest.class));
@@ -93,7 +88,6 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("Should update user when user exists")
     void shouldUpdateUser_whenUserExists() throws Exception {
         UsuarioUpdateRequest request = new UsuarioUpdateRequest(1L, "Usuario Atualizado", "atualizado@email.com");
         doNothing().when(usuarioService).atualizarUsuario(any(UsuarioUpdateRequest.class));
@@ -107,7 +101,6 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("Should delete user when user exists")
     void shouldDeleteUser_whenUserExists() throws Exception {
         doNothing().when(usuarioService).deletarUsuario(1L);
 

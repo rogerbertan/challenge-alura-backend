@@ -7,7 +7,6 @@ import com.bertan.challenge_alura_backend.dto.usuario.UsuarioUpdateRequest;
 import com.bertan.challenge_alura_backend.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,7 +39,6 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Should return list of users when users exist")
     void shouldReturnListOfUsers_whenUsersExist() {
         when(usuarioRepository.findAll()).thenReturn(List.of(usuario));
 
@@ -54,7 +52,6 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Should return empty list when no users exist")
     void shouldReturnEmptyList_whenNoUsersExist() {
         when(usuarioRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -65,7 +62,6 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Should return user when user exists")
     void shouldReturnUser_whenUserExists() {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
 
@@ -78,7 +74,6 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when user not found")
     void shouldThrowEntityNotFoundException_whenUserNotFound() {
         when(usuarioRepository.findById(99L)).thenReturn(Optional.empty());
 
@@ -89,7 +84,6 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Should save user when valid data")
     void shouldSaveUser_whenValidData() {
         UsuarioRequest request = new UsuarioRequest("Novo Usuario", "novo@email.com");
 
@@ -99,51 +93,44 @@ class UsuarioServiceTest {
     }
 
     @Test
-    @DisplayName("Should update user when user exists")
     void shouldUpdateUser_whenUserExists() {
         UsuarioUpdateRequest request = new UsuarioUpdateRequest(1L, "Usuario Atualizado", "atualizado@email.com");
-        when(usuarioRepository.existsById(1L)).thenReturn(true);
-        when(usuarioRepository.getReferenceById(1L)).thenReturn(usuario);
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
 
         usuarioService.atualizarUsuario(request);
 
-        verify(usuarioRepository).existsById(1L);
-        verify(usuarioRepository).getReferenceById(1L);
+        verify(usuarioRepository).findById(1L);
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when updating non-existent user")
     void shouldThrowEntityNotFoundException_whenUpdatingNonExistentUser() {
         UsuarioUpdateRequest request = new UsuarioUpdateRequest(99L, "Usuario Inexistente", "inexistente@email.com");
-        when(usuarioRepository.existsById(99L)).thenReturn(false);
+        when(usuarioRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> usuarioService.atualizarUsuario(request))
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("Usuário não encontrado com o id: 99");
-        verify(usuarioRepository).existsById(99L);
-        verify(usuarioRepository, never()).getReferenceById(any());
+        verify(usuarioRepository).findById(99L);
     }
 
     @Test
-    @DisplayName("Should delete user when user exists")
     void shouldDeleteUser_whenUserExists() {
-        when(usuarioRepository.existsById(1L)).thenReturn(true);
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
 
         usuarioService.deletarUsuario(1L);
 
-        verify(usuarioRepository).existsById(1L);
-        verify(usuarioRepository).deleteById(1L);
+        verify(usuarioRepository).findById(1L);
+        verify(usuarioRepository).delete(usuario);
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when deleting non-existent user")
     void shouldThrowEntityNotFoundException_whenDeletingNonExistentUser() {
-        when(usuarioRepository.existsById(99L)).thenReturn(false);
+        when(usuarioRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> usuarioService.deletarUsuario(99L))
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("Usuário não encontrado com o id: 99");
-        verify(usuarioRepository).existsById(99L);
-        verify(usuarioRepository, never()).deleteById(any());
+        verify(usuarioRepository).findById(99L);
+        verify(usuarioRepository, never()).delete(any());
     }
 }

@@ -5,7 +5,6 @@ import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
 import com.bertan.challenge_alura_backend.exception.ValidationReservaException;
 import com.bertan.challenge_alura_backend.repository.ReservaRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,7 +36,6 @@ class ValidationRoomAlreadyOccupiedTest {
     }
 
     @Test
-    @DisplayName("Should throw ValidationReservaException when room is already occupied")
     void shouldThrowValidationException_whenRoomIsOccupied() {
         ReservaRequest request = new ReservaRequest(1L, 1L, inicio, fim, 5);
         when(reservaRepository.existsBySalaIdAndStatusAndDataHoraInicioLessThanAndDataHoraFimGreaterThan(
@@ -49,7 +47,6 @@ class ValidationRoomAlreadyOccupiedTest {
     }
 
     @Test
-    @DisplayName("Should not throw exception when room is available")
     void shouldNotThrowException_whenRoomIsAvailable() {
         ReservaRequest request = new ReservaRequest(1L, 1L, inicio, fim, 5);
         when(reservaRepository.existsBySalaIdAndStatusAndDataHoraInicioLessThanAndDataHoraFimGreaterThan(

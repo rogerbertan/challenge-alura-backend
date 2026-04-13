@@ -3,7 +3,6 @@ package com.bertan.challenge_alura_backend.validations;
 import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
 import com.bertan.challenge_alura_backend.exception.ValidationReservaException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -21,7 +20,6 @@ class ValidationEndTimeBeforeStartTimeTest {
     }
 
     @Test
-    @DisplayName("Should throw ValidationReservaException when end time is before start time")
     void shouldThrowValidationException_whenEndTimeBeforeStartTime() {
         LocalDateTime inicio = LocalDateTime.of(2025, 1, 20, 14, 0);
         LocalDateTime fim = LocalDateTime.of(2025, 1, 20, 10, 0);
@@ -33,7 +31,6 @@ class ValidationEndTimeBeforeStartTimeTest {
     }
 
     @Test
-    @DisplayName("Should throw ValidationReservaException when end time equals start time")
     void shouldThrowValidationException_whenEndTimeEqualsStartTime() {
         LocalDateTime dataHora = LocalDateTime.of(2025, 1, 20, 10, 0);
         ReservaRequest request = new ReservaRequest(1L, 1L, dataHora, dataHora, 5);
@@ -44,7 +41,6 @@ class ValidationEndTimeBeforeStartTimeTest {
     }
 
     @Test
-    @DisplayName("Should not throw exception when end time is after start time")
     void shouldNotThrowException_whenEndTimeAfterStartTime() {
         LocalDateTime inicio = LocalDateTime.of(2025, 1, 20, 10, 0);
         LocalDateTime fim = LocalDateTime.of(2025, 1, 20, 12, 0);

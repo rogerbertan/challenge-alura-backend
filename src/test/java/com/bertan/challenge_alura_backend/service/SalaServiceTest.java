@@ -7,7 +7,6 @@ import com.bertan.challenge_alura_backend.dto.sala.SalaUpdateRequest;
 import com.bertan.challenge_alura_backend.repository.SalaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,7 +39,6 @@ class SalaServiceTest {
     }
 
     @Test
-    @DisplayName("Should return list of rooms when rooms exist")
     void shouldReturnListOfRooms_whenRoomsExist() {
         when(salaRepository.findAll()).thenReturn(List.of(sala));
 
@@ -54,7 +52,6 @@ class SalaServiceTest {
     }
 
     @Test
-    @DisplayName("Should return empty list when no rooms exist")
     void shouldReturnEmptyList_whenNoRoomsExist() {
         when(salaRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -65,7 +62,6 @@ class SalaServiceTest {
     }
 
     @Test
-    @DisplayName("Should return room when room exists")
     void shouldReturnRoom_whenRoomExists() {
         when(salaRepository.findById(1L)).thenReturn(Optional.of(sala));
 
@@ -78,7 +74,6 @@ class SalaServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when room not found")
     void shouldThrowEntityNotFoundException_whenRoomNotFound() {
         when(salaRepository.findById(99L)).thenReturn(Optional.empty());
 
@@ -89,7 +84,6 @@ class SalaServiceTest {
     }
 
     @Test
-    @DisplayName("Should save room when valid data")
     void shouldSaveRoom_whenValidData() {
         SalaRequest request = new SalaRequest("Nova Sala", 20);
 
@@ -99,51 +93,44 @@ class SalaServiceTest {
     }
 
     @Test
-    @DisplayName("Should update room when room exists")
     void shouldUpdateRoom_whenRoomExists() {
         SalaUpdateRequest request = new SalaUpdateRequest(1L, "Sala Atualizada", 15);
-        when(salaRepository.existsById(1L)).thenReturn(true);
-        when(salaRepository.getReferenceById(1L)).thenReturn(sala);
+        when(salaRepository.findById(1L)).thenReturn(Optional.of(sala));
 
         salaService.atualizarSala(request);
 
-        verify(salaRepository).existsById(1L);
-        verify(salaRepository).getReferenceById(1L);
+        verify(salaRepository).findById(1L);
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when updating non-existent room")
     void shouldThrowEntityNotFoundException_whenUpdatingNonExistentRoom() {
         SalaUpdateRequest request = new SalaUpdateRequest(99L, "Sala Inexistente", 10);
-        when(salaRepository.existsById(99L)).thenReturn(false);
+        when(salaRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> salaService.atualizarSala(request))
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("Sala não encontrada");
-        verify(salaRepository).existsById(99L);
-        verify(salaRepository, never()).getReferenceById(any());
+        verify(salaRepository).findById(99L);
     }
 
     @Test
-    @DisplayName("Should delete room when room exists")
     void shouldDeleteRoom_whenRoomExists() {
-        when(salaRepository.existsById(1L)).thenReturn(true);
+        when(salaRepository.findById(1L)).thenReturn(Optional.of(sala));
 
         salaService.deletarSala(1L);
 
-        verify(salaRepository).existsById(1L);
-        verify(salaRepository).deleteById(1L);
+        verify(salaRepository).findById(1L);
+        verify(salaRepository).delete(sala);
     }
 
     @Test
-    @DisplayName("Should throw EntityNotFoundException when deleting non-existent room")
     void shouldThrowEntityNotFoundException_whenDeletingNonExistentRoom() {
-        when(salaRepository.existsById(99L)).thenReturn(false);
+        when(salaRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> salaService.deletarSala(99L))
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("Sala não encontrada");
-        verify(salaRepository).existsById(99L);
-        verify(salaRepository, never()).deleteById(any());
+        verify(salaRepository).findById(99L);
+        verify(salaRepository, never()).delete(any());
     }
 }
