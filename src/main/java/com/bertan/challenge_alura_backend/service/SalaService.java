@@ -55,9 +55,9 @@ public class SalaService {
     @Transactional
     public void deletarSala(Long id) {
 
-        if (!salaRepository.existsById(id)) {
-            throw new EntityNotFoundException("Sala não encontrada");
-        }
-        salaRepository.deleteById(id);
+        Sala sala = salaRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Sala não encontrada"));
+
+        salaRepository.delete(sala);
     }
 }

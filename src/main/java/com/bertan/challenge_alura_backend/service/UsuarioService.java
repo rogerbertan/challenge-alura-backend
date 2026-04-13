@@ -54,10 +54,9 @@ public class UsuarioService {
     @Transactional
     public void deletarUsuario(Long id) {
 
-        if (!usuarioRepository.existsById(id)) {
-            throw new EntityNotFoundException("Usuário não encontrado com o id: " + id);
-        }
+        Usuario usuario = usuarioRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o id: " + id));
 
-        usuarioRepository.deleteById(id);
+        usuarioRepository.delete(usuario);
     }
 }
