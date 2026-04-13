@@ -20,6 +20,7 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<UsuarioResponse> obterListaUsuarios() {
 
         return usuarioRepository.findAll()
@@ -27,6 +28,7 @@ public class UsuarioService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public UsuarioResponse obterUsuarioPorId(Long id) {
 
         return usuarioRepository.findById(id)
@@ -49,6 +51,7 @@ public class UsuarioService {
         usuario.atualizarInformacoes(dto);
     }
 
+    @Transactional
     public void deletarUsuario(Long id) {
 
         if (!usuarioRepository.existsById(id)) {

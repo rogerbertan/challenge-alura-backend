@@ -34,6 +34,7 @@ public class ReservaService {
         this.validations = validations;
     }
 
+    @Transactional(readOnly = true)
     public Page<ReservaResponse> listarReservas(int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
@@ -41,6 +42,7 @@ public class ReservaService {
                 .map(ReservaResponse::new);
     }
 
+    @Transactional(readOnly = true)
     public ReservaResponse obterReservaPorId(Long id) {
 
         return reservaRepository.findById(id)

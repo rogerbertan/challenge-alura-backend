@@ -20,6 +20,7 @@ public class SalaService {
         this.salaRepository = salaRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<SalaResponse> listarSalas() {
 
         return salaRepository.findAll()
@@ -28,6 +29,7 @@ public class SalaService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public SalaResponse buscarSalaPorId(Long id) {
 
         return salaRepository.findById(id)
