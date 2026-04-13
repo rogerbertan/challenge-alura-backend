@@ -11,7 +11,8 @@ public record ReservaResponse(
     Long salaId,
     LocalDateTime dataHoraInicio,
     LocalDateTime dataHoraFim,
-    StatusReserva statusReserva
+    StatusReserva statusReserva,
+    Integer numeroPessoas
 ) {
     public ReservaResponse(Reserva reserva) {
         this(
@@ -20,7 +21,8 @@ public record ReservaResponse(
             reserva.getSala().getId(),
             reserva.getDataHoraInicio(),
             reserva.getDataHoraFim(),
-            reserva.getStatusReserva()
+            reserva.getStatusReserva(),
+            reserva.getNumeroPessoas()
         );
     }
 }
