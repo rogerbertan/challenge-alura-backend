@@ -5,7 +5,7 @@ import com.bertan.challenge_alura_backend.exception.ValidationReservaException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidationHorarioDeFimMenorQueInicio implements ValidationReservaRequest {
+public class ValidationEndTimeBeforeStartTime implements ValidationReservaRequest {
 
     @Override
     public void validate(ReservaRequest dto) {

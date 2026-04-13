@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ValidationHorarioDeFimMenorQueInicioTest {
+class ValidationEndTimeBeforeStartTimeTest {
 
-    private ValidationHorarioDeFimMenorQueInicio validation;
+    private ValidationEndTimeBeforeStartTime validation;
 
     @BeforeEach
     void setUp() {
-        validation = new ValidationHorarioDeFimMenorQueInicio();
+        validation = new ValidationEndTimeBeforeStartTime();
     }
 
     @Test

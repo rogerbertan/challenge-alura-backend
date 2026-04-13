@@ -7,11 +7,11 @@ import com.bertan.challenge_alura_backend.repository.ReservaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidationSalaJaOcupada implements ValidationReservaRequest {
+public class ValidationRoomAlreadyOccupied implements ValidationReservaRequest {
 
     private final ReservaRepository reservaRepository;
 
-    public ValidationSalaJaOcupada(ReservaRepository reservaRepository) {
+    public ValidationRoomAlreadyOccupied(ReservaRepository reservaRepository) {
         this.reservaRepository = reservaRepository;
     }
 

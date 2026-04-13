@@ -19,13 +19,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ValidationSalaJaOcupadaTest {
+class ValidationRoomAlreadyOccupiedTest {
 
     @Mock
     private ReservaRepository reservaRepository;
 
     @InjectMocks
-    private ValidationSalaJaOcupada validation;
+    private ValidationRoomAlreadyOccupied validation;
 
     private LocalDateTime inicio;
     private LocalDateTime fim;
