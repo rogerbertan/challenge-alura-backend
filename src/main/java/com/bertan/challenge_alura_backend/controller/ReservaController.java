@@ -53,6 +53,6 @@ public class ReservaController {
     public ResponseEntity<String> cancelarReserva(@PathVariable Long id) {
 
         reservaService.cancelarReserva(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Reserva cancelada com sucesso");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
