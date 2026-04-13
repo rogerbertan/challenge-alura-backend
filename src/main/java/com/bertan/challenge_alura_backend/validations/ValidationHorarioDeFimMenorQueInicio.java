@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class ValidationHorarioDeFimMenorQueInicio implements ValidationReservaRequest {
 
     @Override
-    public void validar(ReservaRequest dto) {
+    public void validate(ReservaRequest dto) {
 
         if (dto.dataHoraFim().isBefore(dto.dataHoraInicio()) || dto.dataHoraFim().isEqual(dto.dataHoraInicio())) {
             throw new ValidationReservaException("Horário de fim deve ser maior que o horário de início");

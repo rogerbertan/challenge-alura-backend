@@ -4,5 +4,5 @@ import com.bertan.challenge_alura_backend.dto.reserva.ReservaRequest;
 
 public interface ValidationReservaRequest {
 
-    void validar(ReservaRequest dto);
+    void validate(ReservaRequest dto);
 }

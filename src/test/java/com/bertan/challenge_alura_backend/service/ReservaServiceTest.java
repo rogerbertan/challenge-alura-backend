@@ -121,13 +121,13 @@ class ReservaServiceTest {
         ReservaRequest request = new ReservaRequest(1L, 1L, dataHoraInicio, dataHoraFim, 5);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(salaRepository.findById(1L)).thenReturn(Optional.of(sala));
-        doNothing().when(validation).validar(request);
+        doNothing().when(validation).validate(request);
 
         reservaService.criarReserva(request);
 
         verify(usuarioRepository).findById(1L);
         verify(salaRepository).findById(1L);
-        verify(validation).validar(request);
+        verify(validation).validate(request);
         verify(reservaRepository).save(any(Reserva.class));
     }
 
@@ -166,11 +166,11 @@ class ReservaServiceTest {
         ReservaRequest request = new ReservaRequest(1L, 1L, dataHoraInicio, dataHoraFim, 5);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(salaRepository.findById(1L)).thenReturn(Optional.of(sala));
-        doNothing().when(validation).validar(request);
+        doNothing().when(validation).validate(request);
 
         reservaService.criarReserva(request);
 
-        verify(validation).validar(request);
+        verify(validation).validate(request);
     }
 
     @Test
@@ -181,7 +181,7 @@ class ReservaServiceTest {
         when(reservaRepository.getReferenceById(1L)).thenReturn(reserva);
         when(salaRepository.findById(1L)).thenReturn(Optional.of(sala));
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
-        doNothing().when(validation).validar(any(ReservaRequest.class));
+        doNothing().when(validation).validate(any(ReservaRequest.class));
 
         reservaService.atualizarReserva(request);
 

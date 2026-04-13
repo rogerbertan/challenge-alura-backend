@@ -59,7 +59,7 @@ public class ReservaService {
         Sala sala = salaRepository.findById(dto.salaId())
                 .orElseThrow(() -> new EntityNotFoundException("Sala não encontrada"));
 
-        validations.forEach(v -> v.validar(dto));
+        validations.forEach(v -> v.validate(dto));
 
         Reserva reserva = new Reserva(
                 usuario,
@@ -86,7 +86,7 @@ public class ReservaService {
                 dto.numeroPessoas()
         );
 
-        validations.forEach(v -> v.validar(reservaRequest));
+        validations.forEach(v -> v.validate(reservaRequest));
 
         Sala sala = salaRepository.findById(dto.salaId())
                 .orElseThrow(() -> new EntityNotFoundException("Sala não encontrada"));

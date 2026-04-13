@@ -34,7 +34,7 @@ As validações aplicadas ao criar ou atualizar uma reserva seguem o padrão **C
 ```java
 private final List<ValidationReservaRequest> validations;
 // ...
-validations.forEach(v -> v.validar(dto));
+validations.forEach(v -> v.validate(dto));
 ```
 
 Isso garante que adicionar uma nova validação não exige nenhuma alteração no serviço — basta criar uma nova classe que implemente a interface.

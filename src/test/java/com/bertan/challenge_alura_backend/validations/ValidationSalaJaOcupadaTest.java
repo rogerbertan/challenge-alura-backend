@@ -43,7 +43,7 @@ class ValidationSalaJaOcupadaTest {
         when(reservaRepository.existsBySalaIdAndStatusAndDataHoraInicioLessThanAndDataHoraFimGreaterThan(
                 1L, StatusReserva.ATIVA, fim, inicio)).thenReturn(true);
 
-        assertThatThrownBy(() -> validation.validar(request))
+        assertThatThrownBy(() -> validation.validate(request))
                 .isInstanceOf(ValidationReservaException.class)
                 .hasMessage("Sala já está ocupada nesse período");
     }
@@ -55,7 +55,7 @@ class ValidationSalaJaOcupadaTest {
         when(reservaRepository.existsBySalaIdAndStatusAndDataHoraInicioLessThanAndDataHoraFimGreaterThan(
                 1L, StatusReserva.ATIVA, fim, inicio)).thenReturn(false);
 
-        assertThatCode(() -> validation.validar(request))
+        assertThatCode(() -> validation.validate(request))
                 .doesNotThrowAnyException();
     }
 }

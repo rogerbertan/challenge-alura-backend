@@ -16,7 +16,7 @@ public class ValidationSalaJaOcupada implements ValidationReservaRequest {
     }
 
     @Override
-    public void validar(ReservaRequest dto) {
+    public void validate(ReservaRequest dto) {
 
         boolean salaOcupada = reservaRepository.existsBySalaIdAndStatusAndDataHoraInicioLessThanAndDataHoraFimGreaterThan(
                 dto.salaId(),
